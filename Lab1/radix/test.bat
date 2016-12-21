@@ -1,0 +1,35 @@
+set PROGRAM = "$~1"
+
+%PROGRAM% 16 10 1F
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 2 35 1111111111111111111111111111111111
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 35 2 15V22UM
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 16 10 7FFFFFFF
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 10 16 -2147483648
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 8 11 88834
+if ERRORLEVEL 0 goto err
+
+%PROGRAM% 10 16 -2147483649
+if ERRORLEVEL 0 goto err
+
+%PROGRAM% 16 10 1F
+if ERRORLEVEL 1 goto err
+
+%PROGRAM% 
+if ERRORLEVEL 0 goto err
+
+echo Program testing sucseed
+exit 0
+
+:err
+echo program testing failed
+exit 1
