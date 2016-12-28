@@ -93,11 +93,11 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		}
 		BOOST_AUTO_TEST_CASE(can_substract_rational_number_and_integer)
 		{
-			VerifyRational(CRational(1, 2) - CRational(2), -3, 2);
+			VerifyRational(CRational(1, 2) - 2, -3, 2);
 		}
 		BOOST_AUTO_TEST_CASE(can_substract_integer_and_rational_number)
 		{
-			VerifyRational(CRational(2) - CRational(7, 5), 3, 5);
+			VerifyRational(2 - CRational(7, 5), 3, 5);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 
@@ -120,14 +120,14 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		}
 		BOOST_AUTO_TEST_CASE(can_substract_rational_number_and_integer)
 		{
-			VerifyRational(CRational(1, 2) -= CRational(2), -3, 2);
+			VerifyRational(CRational(1, 2) -= 2, -3, 2);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 	
 	BOOST_AUTO_TEST_SUITE(operator_multiply)
 		BOOST_AUTO_TEST_CASE(can_multiply_rational_number_and_integer)
 		{
-			VerifyRational(CRational(1, 6) * CRational(2), 1, 3);
+			VerifyRational(CRational(1, 6) * 2, 1, 3);
 		}
 		BOOST_AUTO_TEST_CASE(can_multiply_two_rational_numbers)
 		{
@@ -135,13 +135,13 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		}
 		BOOST_AUTO_TEST_CASE(can_multiply_integer_and_rational_number)
 		{
-			VerifyRational(CRational(2) * CRational(1, 4), 1, 2);
+			VerifyRational(2 * CRational(1, 4), 1, 2);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 	BOOST_AUTO_TEST_SUITE(operator_multiply_equal)
 		BOOST_AUTO_TEST_CASE(can_multiply_rational_number_and_integer)
 		{
-			VerifyRational(CRational(1, 6) *= CRational(2), 1, 3);
+			VerifyRational(CRational(1, 6) *= 2, 1, 3);
 		}
 		BOOST_AUTO_TEST_CASE(can_multiply_two_rational_numbers)
 		{
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 	BOOST_AUTO_TEST_SUITE(operator_division)
 		BOOST_AUTO_TEST_CASE(can_divide_rational_number_by_integer)
 		{
-			VerifyRational(CRational(1, 6) / CRational(2), 1, 12);
+			VerifyRational(CRational(1, 6) / 2, 1, 12);
 		}
 		BOOST_AUTO_TEST_CASE(can_divide_rational_number_by_rational_number)
 		{
@@ -160,14 +160,14 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		}
 		BOOST_AUTO_TEST_CASE(can_divide_integer_by_rational_number)
 		{
-			VerifyRational(CRational(2) / CRational(1, 4), 8, 1);
+			VerifyRational(2 / CRational(1, 4), 8, 1);
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 
 	BOOST_AUTO_TEST_SUITE(operator_division_equal)
 		BOOST_AUTO_TEST_CASE(can_divide_rational_number_by_integer)
 		{
-			VerifyRational(CRational(1, 6) /= CRational(2), 1, 12);
+			VerifyRational(CRational(1, 6) /= 2, 1, 12);
 		}
 		BOOST_AUTO_TEST_CASE(can_divide_rational_number_by_rational_number)
 		{
