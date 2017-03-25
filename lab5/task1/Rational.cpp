@@ -118,11 +118,21 @@ CRational const CRational::operator -=(CRational const& first)
 	return *this;
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+// TODO: 7. Реализовать оператор *
+//////////////////////////////////////////////////////////////////////////
+
 CRational const operator *(CRational const& first, CRational const& second)
 {
 	return CRational((first.GetNumerator() * second.GetNumerator()),
 					 (first.GetDenominator() * second.GetDenominator()));
 }
+
+
+//////////////////////////////////////////////////////////////////////////
+// TODO: 8. Реализовать оператор /
+//////////////////////////////////////////////////////////////////////////
 
 CRational const operator /(CRational const& first, CRational const& second)
 {
