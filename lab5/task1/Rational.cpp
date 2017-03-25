@@ -118,21 +118,11 @@ CRational const CRational::operator -=(CRational const& first)
 	return *this;
 }
 
-
-//////////////////////////////////////////////////////////////////////////
-// TODO: 7. Реализовать оператор *
-//////////////////////////////////////////////////////////////////////////
-
 CRational const operator *(CRational const& first, CRational const& second)
 {
 	return CRational((first.GetNumerator() * second.GetNumerator()),
 					 (first.GetDenominator() * second.GetDenominator()));
 }
-
-
-//////////////////////////////////////////////////////////////////////////
-// TODO: 8. Реализовать оператор /
-//////////////////////////////////////////////////////////////////////////
 
 CRational const operator /(CRational const& first, CRational const& second)
 {
@@ -227,7 +217,10 @@ std::istream & operator >> (std::istream &stream, CRational & rational)
 {
 	unsigned numerator = 0;
 	unsigned denominator = 1;
-	if ((stream >> numerator) && (stream.get() == '/') && (stream >> denominator))
+	if (
+		(stream >> numerator) && (stream.get() == '/') &&
+		(stream >> denominator)
+		)
 	{
 		rational = CRational(numerator, denominator);
 	}
