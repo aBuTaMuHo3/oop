@@ -13,9 +13,9 @@ public:
 	int GetGear() const;
 	bool IsEngineOn() const;
 private:
-	int currentSpeed = 0;
-	int currentGear = 0;
-	bool engineIsOn = false;
-	int direction = 0;
+	int m_speed;
+	int m_gear;
+	bool m_engineIsOn;
+	int m_direction;
 };
 

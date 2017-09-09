@@ -18,13 +18,12 @@ public:
 	double ToDouble() const;
 
 	CRational const operator +() const;
-	CRational const operator -();
+	CRational const operator -() const;
 
-	CRational const operator +=(CRational const& first);
-	CRational const operator -=(CRational const& first);
-
-	CRational const operator *=(CRational const& first);
-	CRational const operator /=(CRational const& first);
+	CRational& operator +=(CRational const& first);
+	CRational& operator -=(CRational const& first);
+	CRational& operator *=(CRational const& first);
+	CRational& operator /=(CRational const& first);
 
 	//////////////////////////////////////////////////////////////////////////
 	// TODO: 13. Реализовать оператор вывода рационального числа в выходной поток 

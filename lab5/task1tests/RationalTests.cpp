@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		BOOST_AUTO_TEST_CASE(can_sum_integer_and_rational_number)
 		{
 			VerifyRational(10 + CRational(1, 2), 21, 2);
-		}
+		}		
 	BOOST_AUTO_TEST_SUITE_END()
 	
 	BOOST_AUTO_TEST_SUITE(binary_minus)
@@ -105,6 +105,15 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		BOOST_AUTO_TEST_CASE(can_sum_two_rational_numbers)
 		{
 			VerifyRational(CRational(1, 2) += CRational(1, 6), 2, 3);
+			{
+				CRational r1(3, 1);
+				CRational r2(2, 1);
+				CRational r3(1, 1);
+				(r1 += r2) += r3; // <---------------------------
+				VerifyRational(r1, 6, 1);
+				VerifyRational(r2, 2, 1);
+				VerifyRational(r3, 1, 1);
+			}
 		}
 
 		BOOST_AUTO_TEST_CASE(can_sum_rational_number_and_integer)
@@ -185,6 +194,7 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		{
 			BOOST_CHECK(CRational(1, 6) == CRational(1, 6));
 			BOOST_CHECK(4 == CRational(4, 1));
+			BOOST_CHECK(!(CRational(6, 3) == CRational(17, 6)));
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 
@@ -193,6 +203,7 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		{
 			BOOST_CHECK(CRational(1, 3) != CRational(4, 2));
 			BOOST_CHECK(CRational(3, 4) != CRational(3, 8));
+			BOOST_CHECK(!(CRational(6, 3) != 2));
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 
@@ -200,20 +211,26 @@ BOOST_AUTO_TEST_SUITE(Rational_number)
 		BOOST_AUTO_TEST_CASE(less)
 		{
 			BOOST_CHECK(CRational(1, 4) < CRational(1, 2));
+			BOOST_CHECK(!(CRational(6, 3) < CRational(1, 6)));
 		}
 		BOOST_AUTO_TEST_CASE(less_equal)
 		{
 			BOOST_CHECK(CRational(1, 4) <= CRational(1, 2));
 			BOOST_CHECK(CRational(1, 4) <= CRational(1, 4));
+			BOOST_CHECK(!(CRational(6, 3) <= CRational(1, 6)));
 		}
 		BOOST_AUTO_TEST_CASE(more)
 		{
+			BOOST_CHECK(CRational(5, 2) > 2);
 			BOOST_CHECK(CRational(1, 2) > CRational(1, 3));
+			BOOST_CHECK(!(CRational(6, 3) > CRational(17, 6)));
 		}
 		BOOST_AUTO_TEST_CASE(more_equal)
 		{
 			BOOST_CHECK(CRational(6, 3) >= 2);
 			BOOST_CHECK(CRational(2, 3) >= CRational(1, 6));
+			BOOST_CHECK(!(CRational(6, 3) >= 3));
+			BOOST_CHECK(!(CRational(6, 3) >= CRational(17, 6)));
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 

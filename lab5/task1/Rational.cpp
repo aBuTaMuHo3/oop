@@ -65,10 +65,9 @@ CRational const CRational::operator +() const
 	return *this;
 }
 
-CRational const CRational::operator -()
+CRational const CRational::operator -() const
 {
-	m_numerator = -m_numerator;
-	return *this;
+	return CRational(-m_numerator, m_denominator);
 }
 
 
@@ -101,7 +100,7 @@ CRational const operator-(CRational const& first, CRational const& second)
 // TODO: 5. Реализовать оператор +=
 //////////////////////////////////////////////////////////////////////////
 
-CRational const CRational::operator +=(CRational const& first)
+CRational &CRational::operator +=(CRational const& first)
 {
 	*this = *this + first;
 	return *this;
@@ -112,7 +111,7 @@ CRational const CRational::operator +=(CRational const& first)
 // TODO: 6. Реализовать оператор -=
 //////////////////////////////////////////////////////////////////////////
 
-CRational const CRational::operator -=(CRational const& first)
+CRational &CRational::operator -=(CRational const& first)
 {
 	*this = *this - first;
 	return *this;
@@ -146,7 +145,7 @@ CRational const operator /(CRational const& first, CRational const& second)
 //////////////////////////////////////////////////////////////////////////
 
 
-CRational const CRational::operator *=(CRational const& first)
+CRational &CRational::operator *=(CRational const& first)
 {
 	*this = *this * first;
 	return *this;
@@ -156,7 +155,7 @@ CRational const CRational::operator *=(CRational const& first)
 // TODO: 10. Реализовать оператор /=
 //////////////////////////////////////////////////////////////////////////
 
-CRational const CRational::operator /=(CRational const& first)
+CRational &CRational::operator /=(CRational const& first)
 {
 	*this = *this / first;
 	return *this;
