@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include "Car.h"
 
-
 CCar::CCar()
 {
 	m_engineIsOn = false;
 	m_gear = 0;
-	m_direction = 0;
+	m_direction = Direction::none;
 	m_speed = 0;
 }
 
@@ -38,7 +37,7 @@ bool CCar::SetGear(int gear)
 {
 	if (m_engineIsOn)
 	{
-		if (gear == -1 && m_speed == 0 && m_gear <= 1 && m_direction <= 0)
+		if (gear == -1 && m_speed == 0 && m_gear <= 1 && m_direction == Direction::none)
 		{
 			m_gear = -1;
 			return true;
@@ -48,7 +47,7 @@ bool CCar::SetGear(int gear)
 			m_gear = 0;
 			return true;
 		}
-		else if (gear == 1 && m_speed >= 0 && m_speed <= 30 && m_gear >= 1 || gear == 1 && m_speed == 0 && m_gear <= 0 && m_direction == 0)
+		else if (gear == 1 && m_speed >= 0 && m_speed <= 30 && m_gear >= 1 || gear == 1 && m_speed == 0 && m_gear <= 0 && m_direction == Direction::none)
 		{
 			m_gear = 1;
 			return true;
@@ -82,77 +81,106 @@ bool CCar::SetSpeed(int speed)
 	{
 		return false;
 	}
-		switch (m_gear)
+	switch (m_gear)
+	{
+		case -1:
 		{
-			case -1:
+			if (speed >= 0 && speed <= 20 && (m_direction == Direction::none || m_direction == Direction::backward))
 			{
-				if (speed >= 0 && speed <= 20 && m_direction == 0)
+				m_speed = speed;
+				
+				if (speed == 0)
 				{
-					m_gear = speed;
-					m_direction = -1;
-					return true;
+					m_direction = Direction::none;
 				}
-			}
-			case 0:
-			{
-				if (speed >= 0 && speed <= m_speed)
+				else
 				{
-					m_speed = speed;
-					return true;
+					m_direction = Direction::backward;
 				}
+				return true;
 			}
-			case 1:
-			{
-				if (speed >= 0 && speed <= 30)
-				{
-					m_speed = speed;
-					m_direction = 1;
-					return true;
-				}
-			}
-			case 2:
-			{
-				if (speed >= 20 && speed <= 50)
-				{
-					m_speed = speed;
-					return true;
-				}
-			}
-			case 3:
-			{
-				if (speed >= 30 && speed <= 60)
-				{
-					m_speed = speed;
-					return true;
-				}
-			}
-			case 4:
-			{
-				if (speed >= 40 && speed <= 90)
-				{
-					m_speed = speed;
-					return true;
-				}
-			}
-			case 5:
-			{
-				if (speed >= 50 && speed <= 150)
-				{
-					m_speed = speed;
-					return true;
-				}
-			}
+			break;
 		}
-		if (m_gear <= 1 && m_gear >= -1 && m_speed == 0)
+		case 0:
 		{
-			m_direction = 0;
+			if (speed >= 0 && speed <= m_speed)
+			{
+				m_speed = speed;
+				if (speed == 0)
+				{
+					m_direction = Direction::none;
+				}
+				return true;
+			}
+			break;
 		}
+		case 1:
+		{
+			if (speed >= 0 && speed <= 30)
+			{
+				m_speed = speed;
+				if (speed == 0)
+				{
+					m_direction = Direction::none;
+				}
+				else
+				{
+					m_direction = Direction::forward;
+				}				
+				return true;
+			}
+			break;
+		}
+		case 2:
+		{
+			if (speed >= 20 && speed <= 50)
+			{
+				m_speed = speed;
+				return true;
+			}
+			break;
+		}
+		case 3:
+		{
+			if (speed >= 30 && speed <= 60)
+			{
+				m_speed = speed;
+				return true;
+			}
+			break;
+		}
+		case 4:
+		{
+			if (speed >= 40 && speed <= 90)
+			{
+				m_speed = speed;
+				return true;
+			}
+			break;
+		}
+		case 5:
+		{
+			if (speed >= 50 && speed <= 150)
+			{
+				m_speed = speed;
+				return true;
+			}
+			break;
+		}
+	}
 	return false;
 }
 
-int CCar::GetDirection() const
+std::string CCar::GetDirection() const
 {
-	return m_direction;
+	std::string direction;
+	if (m_direction == Direction::forward)
+		direction = "forward";
+	else if (m_direction == Direction::backward)
+		direction = "backward";
+	else if (m_direction == Direction::none)
+		direction = "none";
+	return direction;
 }
 int CCar::GetSpeed() const
 {

@@ -9,9 +9,11 @@
 
 #include <stdio.h>
 #include <tchar.h>
-#include <vector>
-#include <map>
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <functional>
+#include <map>
 
 
 

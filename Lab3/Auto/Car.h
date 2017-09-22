@@ -1,4 +1,11 @@
 #pragma once
+enum struct Direction
+{
+	backward = -1,
+	none = 0,
+	forward = 1,
+};
+
 class CCar
 {
 public:
@@ -8,7 +15,7 @@ public:
 	bool TurnOffEngine();
 	bool SetGear(int gear);
 	bool SetSpeed(int speed);
-	int GetDirection() const;
+	std::string GetDirection() const;
 	int GetSpeed() const;
 	int GetGear() const;
 	bool IsEngineOn() const;
@@ -16,6 +23,6 @@ private:
 	int m_speed;
 	int m_gear;
 	bool m_engineIsOn;
-	int m_direction;
+	Direction m_direction;
 };
 

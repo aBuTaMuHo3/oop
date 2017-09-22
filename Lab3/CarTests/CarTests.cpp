@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(should_be_neutral_gear_by_default)
 
 BOOST_AUTO_TEST_CASE(can_set_neutral_gear)
 {
-	BOOST_CHECK(car.SetGear(0));
+	BOOST_CHECK(!car.SetGear(0));
 }
 
 BOOST_AUTO_TEST_CASE(cant_set_non_neutral_gear)
@@ -60,6 +60,7 @@ struct when_turned_on_ : CarFixture
 		car.TurnOnEngine();
 	}
 };
+
 BOOST_FIXTURE_TEST_SUITE(if_engine_turned_on, when_turned_on_)
 
 BOOST_AUTO_TEST_CASE(engine_cant_be_turned_on)
@@ -198,4 +199,3 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
-
