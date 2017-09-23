@@ -38,8 +38,9 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 
 	BOOST_AUTO_TEST_CASE(has_copy_constructor)
 	{
-		auto copyList(baseList);
+		CStringList copyList(baseList);
 		BOOST_CHECK_EQUAL(copyList.GetSize(), 3);
+		BOOST_CHECK_EQUAL(baseList.GetSize(), 3);
 		VerifyStringList(copyList, expectedStringVector);
 	}
 
