@@ -158,6 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Auto\Car.cpp" />
+    <ClCompile Include="..\Auto\CarController.cpp" />
+    <ClCompile Include="CarControllerTests.cpp" />
     <ClCompile Include="CarTests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">

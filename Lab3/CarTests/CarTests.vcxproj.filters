@@ -38,5 +38,11 @@
     <ClCompile Include="..\Auto\Car.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CarControllerTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Auto\CarController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

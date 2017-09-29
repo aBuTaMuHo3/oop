@@ -35,140 +35,45 @@ bool CCar::TurnOffEngine()
 }
 bool CCar::SetGear(int gear)
 {
-	if (m_engineIsOn)
+	bool canSetGear = false;
+	if (m_engineIsOn && gear <= 5 && gear >= -1)
 	{
-		if (gear == -1 && m_speed == 0 && m_gear <= 1 && m_direction == Direction::none)
+		canSetGear = (gear == -1 && m_speed == 0 && m_direction <= Direction::none) || (gear == 1 && m_speed == 0 && m_direction>= Direction::none) || (gear == 0)||(gear>=2);
+		canSetGear = canSetGear && SpeedIsInRange(gear, GetSpeed());
+		if (canSetGear)
 		{
-			m_gear = -1;
-			return true;
-		}
-		else if (gear == 0)
-		{
-			m_gear = 0;
-			return true;
-		}
-		else if (gear == 1 && m_speed >= 0 && m_speed <= 30 && m_gear >= 1 || gear == 1 && m_speed == 0 && m_gear <= 0 && m_direction == Direction::none)
-		{
-			m_gear = 1;
-			return true;
-		}
-		else if (gear == 2 && m_speed >= 20 && m_speed <= 50 && m_gear >= 0)
-		{
-			m_gear = 2;
-			return true;
-		}
-		else if (gear == 3 && m_speed >= 30 && m_speed <= 60 && m_gear >= 0)
-		{
-			m_gear = 3;
-			return true;
-		}
-		else if (gear == 4 && m_speed >= 40 && m_speed <= 90 && m_gear >= 0)
-		{
-			m_gear = 4;
-			return true;
-		}
-		else if (gear == 5 && m_speed >= 50 && m_speed <= 150 && m_gear >= 0)
-		{
-			m_gear = 5;
-			return true;
+			m_gear = gear;
 		}
 	}
-	return false;
+	return canSetGear;
 }
 bool CCar::SetSpeed(int speed)
 {
-	if (!m_engineIsOn)
+	bool canSetSpeed = false;
+	if (SpeedIsInRange(m_gear, speed)&&m_engineIsOn)
 	{
-		return false;
-	}
-	switch (m_gear)
-	{
-		case -1:
+		if (((m_gear == 0) && (speed <= GetSpeed())) || !(m_gear == 0))
 		{
-			if (speed >= 0 && speed <= 20 && (m_direction == Direction::none || m_direction == Direction::backward))
+			m_speed = speed;
+			if (speed == 0)
 			{
-				m_speed = speed;
-				
-				if (speed == 0)
-				{
-					m_direction = Direction::none;
-				}
-				else
+				m_direction = Direction::none;
+			}
+			else
+			{
+				if (m_gear == -1)
 				{
 					m_direction = Direction::backward;
 				}
-				return true;
-			}
-			break;
-		}
-		case 0:
-		{
-			if (speed >= 0 && speed <= m_speed)
-			{
-				m_speed = speed;
-				if (speed == 0)
-				{
-					m_direction = Direction::none;
-				}
-				return true;
-			}
-			break;
-		}
-		case 1:
-		{
-			if (speed >= 0 && speed <= 30)
-			{
-				m_speed = speed;
-				if (speed == 0)
-				{
-					m_direction = Direction::none;
-				}
-				else
+				else if (m_gear >= 1)
 				{
 					m_direction = Direction::forward;
-				}				
-				return true;
+				}
 			}
-			break;
-		}
-		case 2:
-		{
-			if (speed >= 20 && speed <= 50)
-			{
-				m_speed = speed;
-				return true;
-			}
-			break;
-		}
-		case 3:
-		{
-			if (speed >= 30 && speed <= 60)
-			{
-				m_speed = speed;
-				return true;
-			}
-			break;
-		}
-		case 4:
-		{
-			if (speed >= 40 && speed <= 90)
-			{
-				m_speed = speed;
-				return true;
-			}
-			break;
-		}
-		case 5:
-		{
-			if (speed >= 50 && speed <= 150)
-			{
-				m_speed = speed;
-				return true;
-			}
-			break;
+			canSetSpeed = true;
 		}
 	}
-	return false;
+	return canSetSpeed;
 }
 
 std::string CCar::GetDirection() const
@@ -193,4 +98,10 @@ int CCar::GetGear() const
 bool CCar::IsEngineOn() const
 {
 	return m_engineIsOn;
+}
+bool CCar::SpeedIsInRange(int const &gear, int speed) const
+{
+	auto it = speedRange.find(gear);
+	auto speedRange = it->second;
+	return  (speedRange.second >= speed) && (speedRange.first <= speed);
 }

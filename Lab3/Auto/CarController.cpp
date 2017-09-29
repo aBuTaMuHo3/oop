@@ -54,7 +54,17 @@ bool CCarController::EngineOn(std::istream & args)
 
 bool CCarController::EngineOff(std::istream & args)
 {
-	m_car.TurnOffEngine();
+	if (!m_car.TurnOffEngine())
+	{
+		if (m_car.IsEngineOn())
+		{
+			m_output << "Engine can be turned off only at 0 speed and 0 gear\n";
+		}
+		else
+		{
+			m_output << "Engine is already off\n";
+		}
+	}
 	return true;
 }
 

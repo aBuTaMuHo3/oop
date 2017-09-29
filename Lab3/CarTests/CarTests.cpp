@@ -138,6 +138,38 @@ BOOST_AUTO_TEST_CASE(can_set_first_gear_after_rear_gear_and_zero_speed)
 	car.SetSpeed(0);
 	BOOST_CHECK(car.SetGear(1));
 }
+BOOST_AUTO_TEST_CASE(can_set_third_gear)
+{
+	car.SetGear(1);
+	car.SetSpeed(30);
+	BOOST_CHECK(car.SetGear(3));
+}
+BOOST_AUTO_TEST_CASE(can_set_fourth_gear)
+{
+	car.SetGear(1);
+	car.SetSpeed(30);
+	car.SetGear(3);
+	car.SetSpeed(60);
+	BOOST_CHECK(car.SetGear(4));
+}
+BOOST_AUTO_TEST_CASE(can_set_fifth_gear)
+{
+	car.SetGear(1);
+	car.SetSpeed(30);
+	car.SetGear(3);
+	car.SetSpeed(60);
+	BOOST_CHECK(car.SetGear(5));
+}
+
+BOOST_AUTO_TEST_CASE(can_set_speed_on_fifth_gear)
+{
+	car.SetGear(1);
+	car.SetSpeed(30);
+	car.SetGear(3);
+	car.SetSpeed(60);
+	car.SetGear(5);
+	BOOST_CHECK(car.SetSpeed(150));
+}
 
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -193,7 +225,37 @@ BOOST_AUTO_TEST_CASE(engine_cant_be_turned_off_at_non_neutral_gear)
 	car.SetGear(1);
 	BOOST_CHECK(!car.TurnOffEngine());
 }
+BOOST_AUTO_TEST_SUITE(get_gear_function)
+BOOST_AUTO_TEST_CASE(returns_backward)
+{
+	car.SetGear(-1);
+	car.SetSpeed(10);
+	BOOST_CHECK_EQUAL(car.GetDirection(), "backward");
+}
+BOOST_AUTO_TEST_CASE(returns_none_if_standing)
+{
+	car.SetGear(-1);
+	car.SetSpeed(0);
+	BOOST_CHECK_EQUAL(car.GetDirection(), "none");
+	car.SetGear(0);
+	car.SetSpeed(0);
+	BOOST_CHECK_EQUAL(car.GetDirection(), "none");
+	car.SetGear(1);
+	car.SetSpeed(0);
+	BOOST_CHECK_EQUAL(car.GetDirection(), "none");
+}
+BOOST_AUTO_TEST_CASE(returns_forward)
+{
+	car.SetGear(1);
+	car.SetSpeed(10);
+	BOOST_CHECK_EQUAL(car.GetDirection(), "forward");
+	car.SetGear(1);
+	car.SetSpeed(10);
+	car.SetGear(0);
+	BOOST_CHECK_EQUAL(car.GetDirection(), "forward");
+}
 
+BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
