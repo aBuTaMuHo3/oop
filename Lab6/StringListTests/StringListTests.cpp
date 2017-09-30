@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "../StringList/StringList.h"
-
+#
 struct StringList
 {
 	CStringList list;
@@ -43,14 +43,29 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 		BOOST_CHECK_EQUAL(baseList.GetSize(), 3);
 		VerifyStringList(copyList, expectedStringVector);
 	}
-
+	
 	BOOST_AUTO_TEST_CASE(has_move_constructor)
 	{
 		auto moveList = std::move(baseList);
 		BOOST_CHECK_EQUAL(moveList.GetSize(), 3);
-		BOOST_CHECK_EQUAL(moveList.GetBackElement(), "Magna");
+		BOOST_CHECK_EQUAL(moveList.GetFrontElement(), "Sic");
 		BOOST_CHECK(baseList.IsEmpty());
 		VerifyStringList(baseList, {});
+	}
+
+	BOOST_AUTO_TEST_CASE(has_const_iterators)
+	{
+		CStringList myList;
+		for (size_t i = 0; i < expectedStringVector.size(); ++i)
+		{
+			myList.Append(expectedStringVector[i]);
+		}
+		size_t counter = 0;
+		for (auto it = myList.cbegin(); it != myList.cend(); ++it)
+		{
+			BOOST_CHECK_EQUAL(*it, expectedStringVector[counter]);
+			counter++;
+		}
 	}
 
 	BOOST_AUTO_TEST_SUITE(by_default)
@@ -60,20 +75,36 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			BOOST_CHECK_EQUAL(list.GetSize(), 0);
 		}
 
-		BOOST_AUTO_TEST_CASE(all_iterators_point_at_nullptr)
+		BOOST_AUTO_TEST_CASE(all_iterators_point_at_first_node)
 		{
-			BOOST_CHECK(list.begin() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.end() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.cbegin() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.cend() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.rbegin() == CStringList::CIterator(nullptr, true));
-			BOOST_CHECK(list.rend() == CStringList::CIterator(nullptr, true));
-			BOOST_CHECK(list.crbegin() == CStringList::CIterator(nullptr, true));
-			BOOST_CHECK(list.crend() == CStringList::CIterator(nullptr, true));
+			BOOST_CHECK(list.begin() == list.end());
+			BOOST_CHECK(list.cbegin() == list.cend());
+			BOOST_CHECK(list.rbegin() == list.rend());
+			BOOST_CHECK(list.crbegin() == list.crend());
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()
 
+	BOOST_AUTO_TEST_CASE(can_erase_element_at_iterator_position)
+	{
+		CStringList list;
+		list.Append("Screaming");
+		list.Append("At");
+		list.Append("Myself");
+		list.Append("Stay");
+		list.Erase(list.begin());
+		VerifyStringList(list, { "At", "Myself", "Stay" });
+
+		list.Erase(++list.begin());
+		VerifyStringList(list, { "At", "Stay" });
+
+		list.Erase(++list.begin());
+		VerifyStringList(list, { "At" });
+
+		list.Erase(list.begin());
+		VerifyStringList(list, {});
+		BOOST_CHECK(list.IsEmpty());
+	}
 	BOOST_AUTO_TEST_CASE(can_push_back)
 	{
 		list.Append("Hello");
@@ -101,7 +132,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 		BOOST_CHECK_EQUAL(*baseList.begin()++, "Morning");
 
 		baseList.Insert(baseList.end(), "Goodbye");
-		std::vector<std::string> expectedStrings = { "Morning", "Hello", "Dear", "World", "!", "Goodbye" };
+		std::vector<std::string> expectedStrings = { "Morning", "Sic", "Dear", "Parvis", "Magna", "Goodbye" };
 		size_t i = 0;
 		for (auto str : baseList)
 		{
@@ -109,7 +140,6 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			i++;
 		}
 	}
-
 	BOOST_AUTO_TEST_SUITE(after_appending_element)
 		BOOST_AUTO_TEST_CASE(increase_size)
 		{

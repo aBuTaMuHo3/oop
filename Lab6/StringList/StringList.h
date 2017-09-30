@@ -1,43 +1,12 @@
 #pragma once
-#include <string>
-#include <memory>
+#include "Iterator.h"
 
 class CStringList
 {
-	class Node
-	{
-	public:
-		Node(std::string const & data, Node * prev, std::unique_ptr<Node> && next);
-		std::string data;
-		Node * prev;
-		std::unique_ptr<Node> next;
-	};
 
 public:
-	class CIterator
-	{
-		friend CStringList;
-	public:
-		CIterator() = default;
-		CIterator(Node * node);
-		CIterator(Node * node, bool isReverse);
 
-		std::string & operator*() const;
-		CIterator & operator--();
-		CIterator & operator++();
-		CIterator operator--(int);
-		CIterator operator++(int);
-		Node * operator->() const;
-
-		bool operator==(CIterator const & rhs) const;
-		bool operator!=(CIterator const & rhs) const;
-
-	private:
-		Node * m_node = nullptr;
-		bool m_isReverse = false;
-	};
-
-	CStringList() = default;
+	CStringList();
 	CStringList(CStringList & list);
 	CStringList(CStringList && list);
 	~CStringList();
@@ -48,24 +17,25 @@ public:
 	void Append(std::string const & data);
 	void PushFront(std::string const & data);
 
-	void Insert(CIterator const  & it, std::string const & data);
-	void Erase(CIterator const & it);
-
+	void Insert(const CIterator<std::string> & it, std::string const & data);
+	void Erase(const CIterator<std::string> & it);
+	
 	void Clear();
 
-	CIterator begin();
-	CIterator end();
-	CIterator const begin() const;
-	CIterator const end() const;
-	CIterator const cbegin() const;
-	CIterator const cend() const;
+	CIterator<std::string> begin();
+	CIterator<const std::string> CStringList::begin() const;
+	CIterator<std::string> end();
+	CIterator<const std::string> CStringList::end() const;
+	CIterator<const std::string> cbegin() const;
+	CIterator<const std::string> cend() const;
 
-	CIterator rbegin();
-	CIterator rend();
-	CIterator const rbegin() const;
-	CIterator const rend() const;
-	CIterator const crbegin() const;
-	CIterator const crend() const;
+
+	std::reverse_iterator<CIterator<std::string>> rbegin();
+	std::reverse_iterator<CIterator<std::string>> rend();
+	std::reverse_iterator<CIterator<const std::string>> rbegin() const;
+	std::reverse_iterator<CIterator<const std::string>> rend() const;
+	std::reverse_iterator<CIterator<const std::string>> crbegin() const;
+	std::reverse_iterator<CIterator<const std::string>> crend() const;
 
 	std::string const & GetBackElement() const;
 	std::string const & GetFrontElement() const;
